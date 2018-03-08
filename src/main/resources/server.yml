@@ -1,4 +1,0 @@
-#application.yml 
-server:
- serverPort: 8080
- 

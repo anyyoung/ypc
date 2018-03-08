@@ -1,0 +1,18 @@
+#application.yml
+rpc:
+ server:
+  serverPort: 8097
+  zkAddress: 127.0.0.1:12181
+ serviceRegist:
+  - class: com.it.netty.rpc.service.PersonServiceImpl
+    timout: 15000
+  - class: Test1Service
+    timeout: 4000
+  - class: Test2Service
+    timeout: 4000
+  - class: Test3Service
+    timeout: 4000
+  - class: Test4Service
+    timeout: 4000
+  - class: Test5Service
+    timeout: 4000
