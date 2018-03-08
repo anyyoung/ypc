@@ -17,9 +17,10 @@ import java.util.Map;
  */
 @Component
 @ConfigurationProperties(prefix = "rpc")
+@PropertySource("classpath:/application.yml")
 public class ServerConfig{
 
-    private Map<String , Object> server  = new HashMap<String , Object>();
+    private Map<String , Object> server  = new HashMap<String, Object>();
     private List<Map<String, Object>> serviceRegist = new ArrayList<Map<String, Object>>();
 
 

@@ -16,3 +16,4 @@ rpc:
     timeout: 4000
   - class: Test5Service
     timeout: 4000
+ rebalance: MurMurHash
