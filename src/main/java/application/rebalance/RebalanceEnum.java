@@ -1,5 +1,4 @@
 package application.rebalance;
-import static application.rebalance.Rebalance.*;
 public enum RebalanceEnum {
     //目前仅引入了MurMurHash的负载均衡算法
     MUR_MUR_HASH_REBALANCE("MurMurHash");
@@ -8,7 +7,7 @@ public enum RebalanceEnum {
 
     RebalanceEnum(String enumName){
         switch (enumName){
-            case MUR_MUR_HASH:
+            case Rebalance.MUR_MUR_HASH:
                 rebalance = new MurMurHashRebalance();
                 break;
                 default:

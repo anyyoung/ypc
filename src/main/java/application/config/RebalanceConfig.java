@@ -6,13 +6,13 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConfigurationProperties(prefix = "rpc")
+@ConfigurationProperties(prefix = "rpc" ,ignoreInvalidFields = true)
 @PropertySource("classpath:/application.yml")
 public class RebalanceConfig {
-    private String rebalance ="";
+    @Value("${rebalance:MurMurHash}")
+    private String rebalance ;
 
     public String getRebalance() {
-        System.out.println("获取值为："+rebalance);
         return rebalance;
     }
 

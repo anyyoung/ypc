@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.young</groupId>
-	<artifactId>ysf</artifactId>
+	<artifactId>ypc</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
     <!-- spring-boot-parent -->
@@ -13,7 +13,8 @@
 	</parent>
 
 	<dependencies>
-		<!-- spring -->
+
+		<!-- spring boot starter-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
@@ -49,7 +50,7 @@
 			<artifactId>protostuff-runtime</artifactId>
 			<version>1.4.0</version>
 		</dependency>
-
+		<!-- configuration processor -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-configuration-processor</artifactId>
