@@ -21,8 +21,8 @@ public class Server implements InitializingBean{
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        System.out.println("serverConfig is : "+serverConfig.getYpcServer());
-        System.out.println("zk config is : "+serverConfig.getZkServer());
+        System.out.println("serverConfig is : "+serverConfig.getYpcServerConf());
+        System.out.println("zk config is : "+serverConfig.getZkServerConf());
         System.out.println("serviceRegist is : "+serverConfig.getServiceRegist());
     }
 }

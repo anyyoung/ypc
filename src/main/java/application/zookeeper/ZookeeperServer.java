@@ -1,66 +1,74 @@
 package application.zookeeper;
 
 import application.config.ServerConfig;
-import application.protocol.Protocol;
 import application.protocol.ProtocolSelector;
-import application.zookeeper.address.NodeAddress;
-import application.zookeeper.address.ServerURI;
-import application.zookeeper.pojo.ZkService;
-import org.apache.zookeeper.ZooKeeper;
+import org.apache.zookeeper.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.io.IOException;
+import java.util.concurrent.CountDownLatch;
 
 /**
- * say some thing
- *
+ * zooKeeper 的服务端
  * @version v1.0
  * @author 17120050
  * @date 3/9/2018
  */
 @Service
+@Scope("singleton")
 @EnableAutoConfiguration
-public class ZookeeperServer implements InitializingBean{
+public class ZookeeperServer {
     private static final Logger LOGGER = LoggerFactory.getLogger(ZookeeperServer.class);
 
-    private Map<String, NodeAddress[]> serverRegists = new ConcurrentHashMap<>();
-    private Protocol protocol;
-    @Autowired
-    private ProtocolSelector protocolSelector;
+    private CountDownLatch countDownLatch = new CountDownLatch(1);
 
-    @Autowired
-    private ServerConfig serverConfig;
+    public ZooKeeper connectServer(String address){
+        ZooKeeper zooKeeper = null;
+        try {
+            zooKeeper = new ZooKeeper(address, ZkConst.ZK_SESSION_TIMEOUT, new Watcher() {
+                @Override
+                public void process(WatchedEvent event) {
+                    if (event.getState() == Event.KeeperState.SyncConnected){
+                        countDownLatch.countDown();
+                    }
+                }
+            });
+            countDownLatch.await();
+            System.out.println("连接zookeeper服务器成功！连接到："+address);
+        }catch (IOException e){
 
-    public void init(){
-        List<ZkService> registesConfig = serverConfig.getServiceRegist();
-        if (registesConfig!=null && registesConfig.size() > 0){
-            for (ZkService zkService : registesConfig){
-                //registServer(zkService);
-            }
+        }catch (InterruptedException e) {
+            e.printStackTrace();
         }
+        return zooKeeper;
     }
 
-    public void createNode(ZooKeeper zK, ServerURI serverURI , Map<String, Object> map) {
+    public String createNode(ZooKeeper zK,  byte[] bytes , String servicePath ,CreateMode createMode) {
+        String path = null;
         try {
-
-           /* String path = zK.create(Constant.ZK_DATA_PATH, bytes, ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
-            LOGGER.debug("create zookeeper node ({} => {})",path , data);*/
+            path = zK.create(servicePath, bytes , ZooDefs.Ids.OPEN_ACL_UNSAFE, createMode);
+            LOGGER.debug("create zookeeper node ({} => {})",path , bytes.toString());
         }catch (Exception e) {
             LOGGER.error("", e);
         }
+        return path;
     }
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        protocol = protocolSelector.getDecoder();
-
+    /**
+     * zk节点的路径为服务的class地址凭借官方的data路径
+     * @param path
+     * @return
+     */
+    public String createPath(String path){
+        if (path != null && "".equals(path)){
+            return ZkConst.ZK_DATA_PATH + path;
+        }
+        return  null;
     }
-
 }

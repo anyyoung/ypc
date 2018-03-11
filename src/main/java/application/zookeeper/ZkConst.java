@@ -13,7 +13,7 @@ import java.io.FileNotFoundException;
  */
 public class ZkConst {
 
-    int ZK_SESSION_TIMEOUT = 5000;
-    String ZK_REGISTRY_PATH = "/ypc";
-    String ZK_DATA_PATH = ZK_REGISTRY_PATH + "/service";
+    static int ZK_SESSION_TIMEOUT = 5000;
+    static String ZK_REGISTRY_PATH = "/ypc";
+    static String ZK_DATA_PATH = ZK_REGISTRY_PATH + "/service";
 }

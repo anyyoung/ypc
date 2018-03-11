@@ -2,12 +2,12 @@
 rpc:
  ypcServer:
   appPort: 8097
-  appName: snrs
+  appName: ypcSys
  zkServer:
-  zkAddress: 127.0.0.1:12181
+  zkAddress: 192.168.3.3:2181,192.168.3.4:2181,192.168.3.5:2181,192.168.3.6:2181
  serviceRegist:
   - serviceClass: com.it.netty.rpc.service.PersonServiceImpl
-    timout: 15000
+    timeout: 15000
   - serviceClass: Test1Service
     timeout: 4000
   - serviceClass: Test2Service

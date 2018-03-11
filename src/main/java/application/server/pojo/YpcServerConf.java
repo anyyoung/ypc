@@ -7,7 +7,7 @@ package application.server.pojo;
  * @author 17120050
  * @date 3/9/2018
  */
-public class YpcServer {
+public class YpcServerConf {
 
     private String appPort ;
     private String appName;
@@ -30,7 +30,7 @@ public class YpcServer {
 
     @Override
     public String toString() {
-        return "YpcServer{" +
+        return "YpcServerConf{" +
                 "appPort='" + appPort + '\'' +
                 ", appName='" + appName + '\'' +
                 '}';

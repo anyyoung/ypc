@@ -25,8 +25,8 @@ public class ServerURI implements Serializable{
         this.timeout = timeout;
     }
 
-    private Lock lock = new ReentrantLock();
-    private CountDownLatch countDownLatch = new CountDownLatch(1);
+    private transient Lock lock = new ReentrantLock();
+    private transient CountDownLatch countDownLatch = new CountDownLatch(1);
 
     public void await() throws InterruptedException {
         timeout = (timeout == 0 ? WAIT_TIME:timeout);

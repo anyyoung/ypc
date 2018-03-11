@@ -12,13 +12,6 @@ public interface Protocol {
     public static final String JAVA = "java";
 
 
-    /**
-     * 序列化的方法
-     * @param obj
-     * @param <T>
-     * @return
-     */
-    public <T> byte[] serialize( T obj );
 
     /**
      * 反序列化的方法
@@ -28,5 +21,14 @@ public interface Protocol {
      * @return
      */
     public <T> T deSerialize(byte[] bytes, Class<?> clazz);
+
+    /**
+     * 序列化的方法
+     * @param obj
+     * @param <T>
+     * @return
+     */
+    public <T> byte[] serialize( T obj );
+
 
 }

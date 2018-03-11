@@ -11,12 +11,13 @@ import application.protocol.Protocol;
  */
 public class JavaDecoder implements Protocol {
     @Override
+    public <T> T deSerialize(byte[] bytes, Class<?> clazz) {
+        return null;
+    }
+
+    @Override
     public <T> byte[] serialize(T obj) {
         return new byte[0];
     }
 
-    @Override
-    public <T> T deSerialize(byte[] bytes, Class<?> clazz) {
-        return null;
-    }
 }

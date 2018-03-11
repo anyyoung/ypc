@@ -7,7 +7,7 @@ package application.zookeeper.pojo;
  * @author 17120050
  * @date 3/9/2018
  */
-public class ZkService {
+public class ZkServiceConf {
 
     private String serviceClass;
     private String timeout;
@@ -30,7 +30,7 @@ public class ZkService {
 
     @Override
     public String toString() {
-        return "ZkService{" +
+        return "ZkServiceConf{" +
                 "serviceClass='" + serviceClass + '\'' +
                 ", timeout='" + timeout + '\'' +
                 '}';

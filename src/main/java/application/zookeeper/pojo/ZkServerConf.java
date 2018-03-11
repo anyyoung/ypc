@@ -7,7 +7,7 @@ package application.zookeeper.pojo;
  * @author 17120050
  * @date 3/9/2018
  */
-public class ZkServer {
+public class ZkServerConf {
 
     private String zkAddress;
 
@@ -21,7 +21,7 @@ public class ZkServer {
 
     @Override
     public String toString() {
-        return "ZkServer{" +
+        return "ZkServerConf{" +
                 "zkAddress='" + zkAddress + '\'' +
                 '}';
     }
