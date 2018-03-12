@@ -8,12 +8,11 @@ import java.io.FileNotFoundException;
  * say some thing
  *
  * @version v1.0
- * @author 17120050
+ * @author
  * @date 3/9/2018
  */
 public class ZkConst {
 
     static int ZK_SESSION_TIMEOUT = 5000;
-    static String ZK_REGISTRY_PATH = "/ypc";
-    static String ZK_DATA_PATH = ZK_REGISTRY_PATH + "/service";
+    static final String DATA_NODE = "/node_";
 }

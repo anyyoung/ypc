@@ -9,7 +9,7 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * 当前节点的远程访问地址
  * @version v1.0
- * @author 17120050
+ * @author
  * @date 3/9/2018
  */
 public class ServerURI implements Serializable{
@@ -25,8 +25,8 @@ public class ServerURI implements Serializable{
         this.timeout = timeout;
     }
 
-    private transient Lock lock = new ReentrantLock();
-    private transient CountDownLatch countDownLatch = new CountDownLatch(1);
+    private  Lock lock = new ReentrantLock();
+    private CountDownLatch countDownLatch = new CountDownLatch(1);
 
     public void await() throws InterruptedException {
         timeout = (timeout == 0 ? WAIT_TIME:timeout);

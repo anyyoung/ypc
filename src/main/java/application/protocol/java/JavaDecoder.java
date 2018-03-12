@@ -6,12 +6,12 @@ import application.protocol.Protocol;
  * say some thing
  *
  * @version v1.0
- * @author 17120050
+ * @author
  * @date 3/9/2018
  */
 public class JavaDecoder implements Protocol {
     @Override
-    public <T> T deSerialize(byte[] bytes, Class<?> clazz) {
+    public <T> T deSerialize(byte[] bytes, Class<T> clazz){
         return null;
     }
 

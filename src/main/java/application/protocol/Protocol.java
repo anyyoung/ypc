@@ -3,7 +3,7 @@ package application.protocol;
 /**
  * 序列化基类
  * @version v1.0
- * @author 17120050
+ * @author
  * @date 3/9/2018
  */
 public interface Protocol {
@@ -20,7 +20,7 @@ public interface Protocol {
      * @param <T>
      * @return
      */
-    public <T> T deSerialize(byte[] bytes, Class<?> clazz);
+    public <T> T deSerialize(byte[] bytes, Class<T> clazz);
 
     /**
      * 序列化的方法

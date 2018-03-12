@@ -6,7 +6,7 @@ import java.io.Serializable;
  * say some thing
  *
  * @version v1.0
- * @author 17120050
+ * @author
  * @date 3/9/2018
  */
 public class NodeAddress implements Serializable{
@@ -33,5 +33,13 @@ public class NodeAddress implements Serializable{
 
     public void setServerURI(ServerURI clientURI) {
         this.serverURI = serverURI;
+    }
+
+    @Override
+    public String toString() {
+        return "NodeAddress{" +
+                "nodeName='" + nodeName + '\'' +
+                ", serverURI=" + serverURI +
+                '}';
     }
 }

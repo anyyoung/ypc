@@ -10,19 +10,22 @@ import application.zookeeper.pojo.ZkServerConf;
 import application.zookeeper.pojo.ZkServiceConf;
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.ZooKeeper;
+import org.apache.zookeeper.data.Stat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
 import java.util.List;
+
 @Service
 @Scope("singleton")
-public class ZookeeperRegister implements InitializingBean{
-    private static  Logger logger = LoggerFactory.getLogger(ZookeeperRegister.class);
+public class ZookeeperRegister implements InitializingBean {
+    private static Logger logger = LoggerFactory.getLogger(ZookeeperRegister.class);
     @Autowired
     private ProtocolConfig protocolConfig;
 
@@ -34,76 +37,102 @@ public class ZookeeperRegister implements InitializingBean{
 
     @Autowired
     public ProtocolSelector protocolSelector;
-    private  Protocol protocol;
+
+    @Autowired
+    ZeekeeperDiscovery zeekeeperDiscovery;
+
+    private Protocol protocol;
     private ZkServerConf zkServerConf;
     private YpcServerConf ypcServerConf;
     private String appNode;
     private int appPort;
+    private String host;
 
     private void initApp(ZooKeeper zooKeeper) {
-        logger.info("-------------注册app -------------");
-        try{
-            String path = zookeeperServer.createNode(zooKeeper, null, appNode , CreateMode.PERSISTENT);
-        }catch (Exception e){
-            logger.error("create appNode failed: ",e);
+        logger.info("-------------register app -------------");
+        try {
+            Stat stat = zookeeperServer.exist(zooKeeper, appNode);
+            if (stat == null) {
+                zookeeperServer.createNode(zooKeeper, null, appNode, CreateMode.PERSISTENT);
+            }
+        } catch (Exception e) {
+            logger.error("create appNode failed: ", e);
         }
     }
 
-    public void init(ZooKeeper zooKeeper , List<ZkServiceConf> zkServiceConfs){
-        logger.info("注册的服务为： "+zkServiceConfs);
+    public void init(ZooKeeper zooKeeper, List<ZkServiceConf> zkServiceConfs) {
         try {
-            protocol = protocolSelector.getDecoder();
-            ServerURI uri ;
-            String host= Inet4Address.getLocalHost().getHostAddress();
-            for (ZkServiceConf zkServiceConf : zkServiceConfs){
+            ServerURI uri;
+            for (ZkServiceConf zkServiceConf : zkServiceConfs) {
                 uri = new ServerURI(host, appPort, Long.valueOf(zkServiceConf.getTimeout()));
                 String servicePath = zkServiceConf.getServiceClass();
                 byte[] data = protocol.serialize(uri);
-                if (servicePath!=null){
-                    zookeeperServer.createNode(zooKeeper, data  ,appNode+concatPath(servicePath) , CreateMode.EPHEMERAL_SEQUENTIAL);
-                }
-            }
-            Thread.sleep(3000000l);
-        } catch (Exception e){
-            logger.error("regiter service failed: ",e);
-        }
 
+                if (servicePath != null) {
+                    servicePath = appNode+"/"+servicePath;
+                    if (zookeeperServer.exist(zooKeeper , servicePath) == null){
+                        zookeeperServer.createNode(zooKeeper, "".getBytes(), servicePath, CreateMode.PERSISTENT);
+                    }
+                    //创建子节点
+                    zookeeperServer.createNode(zooKeeper, data, createDataNode(servicePath),
+                            CreateMode.EPHEMERAL_SEQUENTIAL);
+                }
+
+            }
+            zeekeeperDiscovery.disCoveryService();
+        } catch (Exception e) {
+            logger.error("regiter service failed: ", e);
+        }
 
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        logger.info("----------开始进行zookeeper服务注册！----------");
+        logger.info("----------start zookeeper service register ！----------");
         //ypc服务的配置初始化
         ypcServerConf = serverConfig.getYpcServerConf();
-        if (ypcServerConf != null){
+        if (ypcServerConf != null) {
             //app节点
-            appNode = concatPath(ypcServerConf.getAppName());
+            appNode = createAppPath(ypcServerConf.getAppName());
             //app端口
             appPort = Integer.valueOf(ypcServerConf.getAppPort());
         }
+        //host
+        host = Inet4Address.getLocalHost().getHostAddress();
 
         //zkServer的配置初始化
         List<ZkServiceConf> zkServiceConfs = serverConfig.getServiceRegist();
         zkServerConf = serverConfig.getZkServerConf();
-        String zkAddress = zkServerConf == null? null:zkServerConf.getZkAddress();
+        String zkAddress = zkServerConf == null ? null : zkServerConf.getZkAddress();
         ZooKeeper zooKeeper = zookeeperServer.connectServer(zkAddress);
+        protocol = protocolSelector.getDecoder();
         //注册节点
         initApp(zooKeeper);
         //注册服务
         init(zooKeeper, zkServiceConfs);
+        //再次注册服务注册服务
+        init(zooKeeper, zkServiceConfs);
+        //TODO 测试
+        Thread.sleep(3000000l);
+    }
 
-     }
-
-     public String concatPath(String path){
+    public static String createAppPath(String path) {
         StringBuilder newPath;
-        if (path!=null && path!="") {
+        if (path != null && path != "") {
             newPath = new StringBuilder("/").append(path);
             return newPath.toString();
         }
-        return path;
-     }
+        return "";
+    }
 
-
+    public static String createDataNode(String path) {
+        StringBuilder dataNode = null;
+        if (path != null && path != "") {
+            dataNode = new StringBuilder(path)
+                    .append(ZkConst.DATA_NODE);
+            return dataNode.toString();
+        }
+        return "";
+    }
 
 }
