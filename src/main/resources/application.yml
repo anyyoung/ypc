@@ -1,10 +1,10 @@
 #application.yml
 rpc:
  ypcServer:
-  appPort: 8097
-  appName: ypcSys
+  appPort: 
+  appName: 
  zkServer:
-  zkAddress: 192.168.3.3:2181,192.168.3.4:2181,192.168.3.5:2181,192.168.3.6:2181
+  zkAddress: 
  serviceRegist:
   - serviceClass: com.it.netty.rpc.service.PersonServiceImpl
     timeout: 15000
