@@ -7,7 +7,7 @@ import application.protocol.protobuf.ProtoBufDecoder;
  * say some thing
  *
  * @version v1.0
- * @author 17120050
+ * @author
  * @date 3/9/2018
  */
 public enum ProtocolEnum {

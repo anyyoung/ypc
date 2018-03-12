@@ -1,6 +1,6 @@
 package application.protocol;
 
-import application.Exception.YpcConfigException;
+import application.exception.YpcConfigException;
 import application.config.ProtocolConfig;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * say some thing
  *
- * @author 17120050
+ * @author
  * @version v1.0
  * @date 3/9/2018
  */

@@ -8,7 +8,7 @@ import java.util.Random;
 /**
  * 随机数权重计算
  * @version v1.0
- * @author 17120050
+ * @author
  * @date 3/9/2018
  */
 public class RandomRebalance implements Rebalance{

@@ -1,16 +1,14 @@
 package application.rebalance;
 
-import application.Exception.YpcConfigException;
+import application.exception.YpcConfigException;
 import application.config.RebalanceConfig;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 @EnableConfigurationProperties
