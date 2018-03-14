@@ -19,7 +19,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.net.Inet4Address;
-import java.net.UnknownHostException;
 import java.util.List;
 
 @Service
@@ -39,7 +38,7 @@ public class ZookeeperRegister implements InitializingBean {
     public ProtocolSelector protocolSelector;
 
     @Autowired
-    ZeekeeperDiscovery zeekeeperDiscovery;
+    ZookeeperDiscovery zookeeperDiscovery;
 
     private Protocol protocol;
     private ZkServerConf zkServerConf;
@@ -79,7 +78,7 @@ public class ZookeeperRegister implements InitializingBean {
                 }
 
             }
-            zeekeeperDiscovery.disCoveryService();
+            zookeeperDiscovery.disCoveryService();
         } catch (Exception e) {
             logger.error("regiter service failed: ", e);
         }

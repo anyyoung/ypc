@@ -30,8 +30,8 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Service
 @Scope("singleton")
-public class ZeekeeperDiscovery {
-    private static Logger LOGGER = LoggerFactory.getLogger(ZeekeeperDiscovery.class);
+public class ZookeeperDiscovery {
+    private static Logger LOGGER = LoggerFactory.getLogger(ZookeeperDiscovery.class);
 
     public static Map<String, NodeAddress[]> servic_array = new ConcurrentHashMap<>();
 
