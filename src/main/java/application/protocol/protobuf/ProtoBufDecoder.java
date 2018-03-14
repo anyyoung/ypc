@@ -31,8 +31,6 @@ public class ProtoBufDecoder implements Protocol {
         }
         return schema;
     }
-
-
     @Override
     public <T> T deSerialize(byte[] bytes, Class<T> clazz) {
         try {
@@ -44,7 +42,6 @@ public class ProtoBufDecoder implements Protocol {
             throw new IllegalStateException(e.getMessage(), e);
         }
     }
-
     @Override
     public <T> byte[] serialize(T obj) {
         Class<T> cls = (Class<T>) obj.getClass();
